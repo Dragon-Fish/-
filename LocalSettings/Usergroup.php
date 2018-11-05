@@ -1,3 +1,4 @@
+<?php
 ##用户组
 #未登入用户
 $wgGroupPermissions['*']['edit'] = false;
