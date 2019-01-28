@@ -1,2 +1,2 @@
-# MAINPAGE LIDE SHOW
+# MAINPAGE SLIDE SHOW
 Display on Mainpage
