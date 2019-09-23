@@ -4,8 +4,7 @@
  * Url: https://github.com/Dragon-Fish/wjghj-wiki/Gadgets/in-page-edit
  * Description: Let you edit page without open new tab. And edit Navebox via navbar, edit section via section edit link etc.
  **/
-
-function InPageEdit(inPageEditTarget,inPageEditSection) {
+function InPageEdit(inPageEditTarget) {
 
   if ($('#InPageEdit').length > 0) { // 只能存在一个窗口
     Modal('已经存在一个编辑任务！请先关闭现在的编辑窗口。', 'In page edit 错误');
@@ -14,15 +13,11 @@ function InPageEdit(inPageEditTarget,inPageEditSection) {
     if (inPageEditTarget == undefined) {
       inPageEditTarget = mw.config.get('wgPageName');
     }
-    if (inPageEditSection == undefined) {
-      inPageEditTarget = '';
-    }
     var origintext;
 
     new mw.Api().get({
       action: "parse",
       page: inPageEditTarget,
-      section: inPageEditSection,
       prop: "wikitext",
       format: "json"
     }).then(function(data) {
@@ -78,7 +73,6 @@ function InPageEdit(inPageEditTarget,inPageEditSection) {
             action: 'edit',
             text: $('#InPageEdit #newcontent').val(),
             title: inPageEditTarget,
-            section: inPageEditSection,
             summary: '[InPageEdit] ' + $('#InPageEdit #reason').val(),
             token: mw.user.tokens.get('editToken')
           }).done(function() {
@@ -116,7 +110,7 @@ $(function() {
         'number': params.section || -1
       }));
       $('.in-page-edit-link-edit').click(function() {
-        InPageEdit(params.title,params.section)
+        InPageEdit(params.title)
       });
     }
   });
