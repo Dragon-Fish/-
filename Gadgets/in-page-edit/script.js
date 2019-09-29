@@ -122,7 +122,7 @@ function InPageEdit(option) {
  
         // Do post request
         var isMinor = $('#InPageEdit #is-minor').prop('checked');
-        if (noSection) {
+        if (inPageEditSection === 'none') {
           varSubmit = {
             action: 'edit',
             text: $('#InPageEdit #newcontent').val(),
