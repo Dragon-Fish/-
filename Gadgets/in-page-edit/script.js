@@ -1,7 +1,7 @@
 /**
  * MediaWiki JS Plugin: In Page Edit
  * Author: 机智的小鱼君
- * Url: https://github.com/Dragon-Fish/wjghj-wiki/edit/master/Gadgets/in-page-edit
+ * Url: https://github.com/Dragon-Fish/wjghj-wiki/blob/master/Gadgets/in-page-edit/script.js
  * Description: Let you edit page without open new tab. And edit Navebox via navbar, edit section via section edit link etc.
  **/
 
