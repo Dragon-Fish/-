@@ -1,7 +1,7 @@
 /** 
  * Custom Modal
  * Author: 机智的小鱼君
- * https://github.com/Dragon-Fish/wjghj-wiki/blob/master/Gadgets/CustomModal/script.js
+ * https://github.com/Dragon-Fish/wjghj-wiki/tree/master/Gadgets/CustomModal
 **/
 function PopupWindow(content,title,settings) {
   PopupWindow(content,title,settings);
