@@ -1,0 +1,42 @@
+/** 
+ * Css Tootip
+ * Author: 机智的小鱼君
+ * https://github.com/Dragon-Fish/wjghj-wiki/blob/master/Gadgets/CssTooltip
+**/
+.tooltip {
+  position:relative
+}
+.tooltip .tooltip-button {
+  color: #999
+}
+.tooltip .tooltip-content {
+  display: none;
+  position: absolute;
+  top: 0.8em;
+  margin-top: 12px;
+  left: -20px;
+  padding: 4px;
+  width: 240px;
+  background: white;
+  border: 1px solid #c6c6c6;
+  border-bottom-right-radius: 2px;
+  border-bottom-left-radius: 2px;
+  box-shadow: 0 0 4px #bbb;
+}
+.tooltip .tooltip-content:before {
+  content: "";
+  background-image: url(https://wjghj.cn/images/f/f8/Tooltip-top-arrow.png);
+  background-size: 262.3px 16px;
+  background-repeat: no-repeat;
+  position: absolute;
+  height: 16px;
+  width: 262px;
+  top: -16px;
+  left: -7.2px;
+}
+.tooltip:hover .tooltip-button {
+  color: #bbb
+}
+.tooltip:hover .tooltip-content {
+  display: unset;
+}
