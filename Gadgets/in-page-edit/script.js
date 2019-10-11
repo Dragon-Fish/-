@@ -1,14 +1,15 @@
 /**
  * MediaWiki JS Plugin: In Page Edit
  * Author: 机智的小鱼君
- * Url: https://github.com/Dragon-Fish/wjghj-wiki/blob/master/Gadgets/in-page-edit/script.js
+ * Url: https://github.com/Dragon-Fish/wjghj-wiki/edit/master/Gadgets/in-page-edit
  * Description: Let you edit page without open new tab. And edit Navebox via navbar, edit section via section edit link etc.
  **/
 
 function InPageEdit(option) {
   // 只能存在一个窗口
   if ($('#InPageEdit').length > 0) {
-    $('#InPageEdit').remove();
+    Modal('已存在一个编辑器<br/><button data-action="closeModal">好的</button>','<span class="error">InPageEdit发生错误</span>');
+    return;
   }
 
   // Variables
@@ -36,16 +37,11 @@ function InPageEdit(option) {
 
   '<div id="button-area">' + '<div id="normal"><button id="cancle-btn">取消</button> <button id="preview-btn">预览</button> <label><input type="checkbox" id="is-minor"/> 小编辑</label> <div style="float:right"><input id="reason" placeholder="编辑摘要"> <button id="submit-btn">提交</button></div></div>' +
 
-  '<center id="confirm" style="display:none;clear:both"><span id="code"></span><br/><button id="no">否</button> <button id="yes">是</button></center>' +
-
   '</div>' +
 
-  '<center id="info-area" style="display:none;"></center>' +
+  '<h2>预览</h2>' + '<div id="preview-area" class="" style="padding:8px; border:2px dotted #aaa"></div>' +
 
-  '<h1>预览</h1>' + '<div id="preview-area" style="padding:8px; border:2px dotted #aaa"></div>' +
-
-  '</div>','<span id="inPageEdit-edit-title">inPageEditTitlePlaceholder</span>',{closeBtn:false});
-  $('#popup-window-bg').unbind();
+  '</div>','<span id="inPageEdit-edit-title">inPageEditTitlePlaceholder</span>',{closeBtn:false,disableBg:true,addClass:'inPageEditModal'});
 
   if (inPageEditSection === 'none') {
     varGet = {
@@ -81,15 +77,16 @@ function InPageEdit(option) {
     $('#inPageEdit-edit-title').html('正在编辑：' + decodeURIComponent(inPageEditTarget)+Section);
  
     // Cancle
+    $('.inPageEditModal').each(function(){
+      var $this = $(this);
+      $this.find('#cancle-btn').attr('data-ipe-id',$this.attr('data-modalid'));
+    });
     $('#InPageEdit #cancle-btn').click(function() {
-      $('#InPageEdit #button-area #normal').hide();
-      $('#InPageEdit #confirm').show(); $('#InPageEdit #confirm button').unbind();
-      $('#InPageEdit #confirm #code').text('确定取消编辑？');
-      $('#InPageEdit #confirm #no').click(function(){$('#InPageEdit #button-area #normal').show();$('#InPageEdit #confirm').hide();});
-      $('#InPageEdit #confirm #yes').click(function(){
+      var confirmCancel = confirm('确定要取消吗？');
+      if(confirmCancel) {
         $('body').removeClass('action-in-page-edit');
-        $('#popup-window-bg, #popup-window').remove();
-      });
+        closeModal($(this).attr('data-ipe-id'));
+      }
     });
  
     // Preview
@@ -109,11 +106,8 @@ function InPageEdit(option) {
  
     // Submit
     $('#InPageEdit #submit-btn').click(function() {
-      $('#InPageEdit #button-area #normal').hide();
-      $('#InPageEdit #confirm').show(); $('#InPageEdit #confirm button').unbind();
-      $('#InPageEdit #confirm #code').text('确定发布编辑？');
-      $('#InPageEdit #confirm #no').click(function(){$('#InPageEdit #button-area #normal').show();$('#InPageEdit #confirm').hide();});
-      $('#InPageEdit #confirm #yes').click(function(){
+      var confirmSubmit = confirm('确定发布编辑吗？');
+      if (confirmSubmit) {
         // Hide elements
         $('#InPageEdit #newcontent').attr('readonly','readonly');
         $('#InPageEdit #button-area').hide();
@@ -144,18 +138,18 @@ function InPageEdit(option) {
           }
         }
         new mw.Api().post(varSubmit).done(function() {
-          $('#InPageEdit #info-area').html('发布成功');
+          $('#InPageEdit #info-area').hide().html('');
+          Modal('发布成功，正在刷新页面……','发布成功',{disableBg:true,closeBtn: false, disableDrag: true});
           window.location.reload();
         }).fail(function(){
           // Show elements
-          $('#InPageEdit #submit-btn').html('Retry');
+          $('#InPageEdit #submit-btn').html('重试');
           $('#InPageEdit #newcontent').attr('readonly',false);
-          $('#InPageEdit #button-area, #InPageEdit #button-area #normal').show();
-          $('#InPageEdit #confirm').hide();
-          alert('InPageEdit: Error post your request.');
           $('#InPageEdit #info-area').hide().html('');
+          $('#InPageEdit #button-area, #InPageEdit #button-area #normal').show();
+          Modal('发布编辑时出现错误，建议复制内容后使用常规编辑器保存您的编辑。<br/><button data-action="closeModal">好的</button>','<span class="error">InPageEdit发生错误</span>');
         });
-      });
+      }
     });
   }
 }
