@@ -179,7 +179,7 @@ $(function() {
     // Not edit link of this wiki
     if (url.split('/')['2'] !== location.href.split('/')['2'] && url.substr(0, 1)!=='/') return;
     // Not url start with 'index.php?title=FOO'
-    if (params.title === undefined) params.title = url.split('com/').pop().split('?')['0'];
+    if (params.title === undefined) params.title = url.split('/wiki/').pop().split('?')['0'];
     if (params.section === undefined) params.section = 'none';
 
     var target = params.title,
