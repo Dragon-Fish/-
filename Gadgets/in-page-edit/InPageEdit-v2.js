@@ -13,15 +13,24 @@
  ** 2.0.0 - Alpha release, rewrite InPageEdit via ssi modal plugin.
  ** 2.0.7 - Fixed bugs, content can be published now.
  ** 2.0.8 - Now support preview.
- ** 2.0.9 - Now support multi skins
- ** 2.0.279 20191018 - Now support minor edit.
- ** 2.1.298 20191019 - Now support reversion edit. Posting error will show you the error code.
+ ** 2.0.9 - Now support multi skins.
+ ** 2.0.279(20191018) - Now support minor edit.
+ ** 2.1.298(20191019) - Now support reversion edit. Posting error will show you the error code.
+ ** 2.1.306(20191025) - Replace syntax with mw resource loader.
+ ** 2.1.318(20191025) - Testing: Load via URL param.
  **/
-/** Modal plugin **/
+/** 导入模态框插件 **/
 mw.loader.load('https://cdn.bootcss.com/ssi-modal/1.0.27/js/ssi-modal.min.js');
 mw.loader.load('https://cdn.bootcss.com/ssi-modal/1.0.27/styles/ssi-modal.min.css','text/css');
 
-/** Main **/
+/** 获取版本信息 **/
+mw.loader.load('https://common.wjghj.cn/js/InPageEdit-v2.js/version-info');
+var InPageEditcurVersion = '2.1.318';// 这里填写当前的版本号
+$(window).load(function(){
+  InPageEditVersionInfo(InPageEditcurVersion);
+});
+
+/** InPageEdit主框架 **/
 function InPageEdit(option) {
 
   // Variables
@@ -41,7 +50,7 @@ function InPageEdit(option) {
   if (editPage === undefined) return;
   if (editSummary === undefined) editSummary = '';
   if (editReversion !== undefined && editReversion !== '' && editReversion !== mw.config.get('wgCurRevisionId')) {
-    ssi_modal.notify('warning',{content:'您正在编辑页面的历史版本。',title:'警告'});
+    ssi_modal.notify('warning',{content:'您正在编辑页面的历史版本。',title:'提示'});
     jsonGet = {
       action: 'parse',
       oldid: editReversion,
@@ -163,13 +172,16 @@ function InPageEdit(option) {
   }).then(function(data){
     editNotice = data.query.allmessages[0]['*'];
     new mw.Api().post({action:'parse',preview:true,text:editNotice}).then(function(data){
-      editNotice = '<div id="edit-notice">' + data.parse.text['*'] + '</div>'
+      editNotice = '<div id="edit-notice" style="display:none">' + data.parse.text['*'] + '</div>'
       $('#editArea').before(editNotice);
+      $('#edit-notice').show(400);
     });
   });
 
   // 预览模块
   function requestPreview(text){
+    var timestamp = new Date().getTime();
+    ssi_modal.show({content:'<section id="InPageEditPreview" data-timestamp="'+timestamp+'">正在读取预览……</section>',title:'预览'});
     new mw.Api().post({
       action: "parse",
       text: text,
@@ -178,7 +190,7 @@ function InPageEdit(option) {
       format: "json"
     }).then(function(data){
       var content = data.parse.text['*'];
-      ssi_modal.show({content:content,title:'预览'});
+      $('#InPageEditPreview[data-timestamp="'+timestamp+'"]').html(content);
     });
   }
 
@@ -207,7 +219,7 @@ function InPageEdit(option) {
       }	
     }
     new mw.Api().post(jsonPost).then(function(data){
-      ssi_modal.show({content:'成功，正在刷新页面。'});
+      ssi_modal.notify('success',{position: 'right top',title:'成功',content:'成功，正在刷新页面。'});
       window.location.reload();
     }).fail(function(errorCode, fallback, errors){
       ssi_modal.notify('error',{position: 'right top',title:'警告',content:'发布编辑时发生错误<br/><span style="font-size:amall">'+errors.errors[0]['*']+'('+errors.errors[0]['code']+')</span>'});
@@ -220,30 +232,24 @@ function InPageEdit(option) {
 function InPageEditSectionLink() {
   $('#mw-content-text a:not(.new)').each(function(i) {
     if ($(this).attr('href') === undefined) return;
-    var url = $(this).attr('href');
-        params = {};
-    var vars = url.split('?').pop().split("&");
-    for (var i=0;i<vars.length;i++) {
-      var pair = vars[i].split("=");
-      params[pair[0]] = pair[1];
-    }
- 
+    var url = $(this).attr('href'),
+        title = mw.util.getParamValue( 'title', url ),
+        section = mw.util.getParamValue( 'section', url ),
+        reversion = mw.util.getParamValue( 'oldid', url );
+
     // 不是本地编辑链接
     if (url.split('/')['2'] !== location.href.split('/')['2'] && url.substr(0, 1)!=='/') return;
+
     // 不是 index.php?title=FOO 形式的url
-    if (params.title === undefined) {
+    if (title === null) {
       var splitStr = mw.config.get('wgArticlePath').replace('$1','');
       if (splitStr === '/') {
       	splitStr = mw.config.get('wgServer').substring(mw.config.get('wgServer').length-4)+'/';
       }
-      params.title = url.split(splitStr).pop().split('?')['0'];
+      title = url.split(splitStr).pop().split('?')['0'];
     }
 
-    var target = params.title,
-        section = params.section,
-        reversion = params.oldid;
-
-    if (params.action === 'edit' && target !== undefined && section !== 'new') {
+    if (mw.util.getParamValue( 'action', url ) === 'edit' && title !== undefined && section !== 'new') {
       $(this).after(
         $('<a>',{
           'href': 'javascript:void(0)',
@@ -251,12 +257,12 @@ function InPageEditSectionLink() {
         })
         .text('快速编辑')
         .click(function (){
-          if (reversion !== undefined) {
-            InPageEdit({page:target, summary:' //InPageEdit - from oldid: '+ reversion, reversion:reversion});
-          } else if (section !== undefined) {
-            InPageEdit({page:target, summary:' //InPageEdit - Section'+section, section:section});
+          if (reversion !== null) {
+            InPageEdit({page:title, summary:' //InPageEdit - from oldid: '+ reversion, reversion:reversion});
+          } else if (section !== null) {
+            InPageEdit({page:title, summary:' //InPageEdit - Section'+section, section:section});
           } else {
-            InPageEdit({page:target, summary:' //InPageEdit'});
+            InPageEdit({page:title, summary:' //InPageEdit'});
           }
         }
       ));
@@ -320,4 +326,17 @@ $(function() {
     console.warn('[InPageEdit] 警告：未经优化的皮肤。');
   }
 
+});
+
+/** 正在测试中，通过URL参数载入 **/
+$(function(){
+  var ipeparam = mw.util.getParamValue( 'inpageedit', location.href ),
+     reversion = mw.util.getParamValue( 'oldid', location.href )
+  if ( ipeparam == '1' || ipeparam == 'true' ) {
+    if (reversion == null) {
+      InPageEdit({page:mw.config.get('wgPageName')});
+    } else {
+      InPageEdit({page:mw.config.get('wgPageName'),reversion:reversion});
+    }
+  }
 });
