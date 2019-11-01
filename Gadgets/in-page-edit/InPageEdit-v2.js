@@ -4,108 +4,104 @@
  * CC BY-NC-SA
  *
  * MediaWiki JS Plugin: In Page Edit
- * Version: 2.1.298 20191019
+ * Version: See “获取版本信息”
  * Author: 机智的小鱼君
- * Url: https://github.com/Dragon-Fish/wjghj-wiki/edit/master/Gadgets/in-page-edit
- * Description: Let you edit page without open new tab. And edit Navebox via navbar, edit section via section edit link etc.
- *
+ * Url:
+ ** https://github.com/Dragon-Fish/wjghj-wiki/edit/master/Gadgets/in-page-edit
+ ** https://common.wjghj.cn/wiki/MediaWiki:Js-InPageEdit-v2.js
  * Logs:
- ** 2.0.0 - Alpha release, rewrite InPageEdit via ssi modal plugin.
- ** 2.0.7 - Fixed bugs, content can be published now.
- ** 2.0.8 - Now support preview.
- ** 2.0.9 - Now support multi skins.
- ** 2.0.279(20191018) - Now support minor edit.
- ** 2.1.298(20191019) - Now support reversion edit. Posting error will show you the error code.
- ** 2.1.306(20191025) - Replace syntax with mw resource loader.
- ** 2.1.318(20191025) - Testing: Load via URL param.
+ ** https://github.com/Dragon-Fish/wjghj-wiki/blob/master/Gadgets/in-page-edit/version-info.md
+ ** https://common.wjghj.cn/wiki/InPageEdit-v2/version-info
  **/
 /** 导入模态框插件 **/
 mw.loader.load('https://cdn.bootcss.com/ssi-modal/1.0.27/js/ssi-modal.min.js');
-mw.loader.load('https://cdn.bootcss.com/ssi-modal/1.0.27/styles/ssi-modal.min.css','text/css');
+mw.loader.load('https://cdn.bootcss.com/ssi-modal/1.0.27/styles/ssi-modal.min.css', 'text/css');
 
 /** 获取版本信息 **/
 mw.loader.load('https://common.wjghj.cn/js/InPageEdit-v2.js/version-info');
-var InPageEditcurVersion = '2.1.318';// 这里填写当前的版本号
-$(window).load(function(){
+var InPageEditcurVersion = '2.2.420'; // 这里填写当前的版本号
+$(window).load(function () {
   InPageEditVersionInfo(InPageEditcurVersion);
 });
+
+/** 样式表 **/
+// Local CSS
+mw.loader.load('https://common.wjghj.cn/css/InPageEdit-v2', 'text/css');
+// Material icons
+mw.loader.load('https://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.min.css', 'text/css');
 
 /** InPageEdit主框架 **/
 function InPageEdit(option) {
 
-  // Variables
-  if (option === undefined) option = {};
+  // 变量
+  if (option === undefined)
+    option = {};
   var editPage = decodeURIComponent(option.page),
-      editSection = option.section,
-      titleSection = '',
-      editReversion = option.reversion,
-      titleReversion = '',
-      editText,
-      editSummary = option.summary,
-      editMinor = $('#editMinor').prop('checked'),
-      editNotice = '',
-      jsonGet = {},
-      jsonPost = {};
+  editSection = option.section,
+  titleSection = '',
+  editReversion = option.reversion,
+  titleReversion = '',
+  editText,
+  editSummary = option.summary,
+  editMinor = $('#editMinor').prop('checked'),
+  editNotice = '',
+  jsonGet = {
+    action: 'parse',
+    page: editPage,
+    prop: 'wikitext',
+    format: 'json'
+  },
+  jsonPost = {},
+  timestamp = new Date().getTime();
 
-  if (editPage === undefined) return;
-  if (editSummary === undefined) editSummary = '';
+  if (editPage === undefined)
+    return;
+  if (editSummary === undefined)
+    editSummary = '';
   if (editReversion !== undefined && editReversion !== '' && editReversion !== mw.config.get('wgCurRevisionId')) {
-    ssi_modal.notify('warning',{content:'您正在编辑页面的历史版本。',title:'提示'});
-    jsonGet = {
-      action: 'parse',
-      oldid: editReversion,
-      prop: 'wikitext',
-      format: 'json'
-    }
-    titleReversion = '<span style="font-size:small;">(历史版本：'+editReversion+')</span>'
+    ssi_modal.notify('warning', {
+      content: '您正在编辑页面的历史版本。',
+      title: '提示'
+    });
+    delete jsonGet.page;
+    jsonGet.oldid = editReversion;
+    titleReversion = '<span style="font-size:small;">(历史版本：' + editReversion + ')</span>'
   } else {
     if (editSection !== undefined && editSection !== '') {
-      jsonGet = {
-        action: 'parse',
-        page: editPage,
-        section: editSection,
-        prop: 'wikitext',
-        format: 'json'
-      }
-      titleSection = '(第'+editSection+'部分)';
-    } else {
-      jsonGet = {
-        action: 'parse',
-        page: editPage,
-        prop: 'wikitext',
-        format: 'json'
-      }
+      jsonGet.section = editSection;
+      titleSection = '(第' + editSection + '部分)';
     }
   }
 
   // Debug
   console.info(
-    '[InPageEdit] Debug info\n'+
+    '[InPageEdit] Running params\n' +
     'editPage = ' + editPage + '\n' +
     'editSection = ' + editSection + '\n' +
     'editReversion = ' + editReversion + '\n' +
-    'wgCurRevisionId = ' + mw.config.get('wgCurRevisionId')
-  );
+    'wgCurRevisionId = ' + mw.config.get('wgCurRevisionId'));
 
   // 显示主窗口
   ssi_modal.show({
-    title: '<span style="font-style:normal;">正在编辑：<u id="editPage">'+editPage+'</u>'+titleSection+'</span>'+titleReversion,
-    content: '<textarea id="editArea" style="max-width:100%;min-width:100%;min-height:350px" disabled="">正在加载……</textarea><label>摘要：<input id="editSummary" value="'+editSummary+'"/></label><br/><label><input id="editMinor" type="checkbox" style="margin-left:0;margin-right:4px"/>小编辑</label>',
+    title: '正在编辑：<u id="editPage">' + editPage + '</u>' + titleSection + titleReversion,
+    content: '<textarea id="editArea" style="" disabled="">正在加载……</textarea><label>摘要：<input id="editSummary" value="' + editSummary + '"/></label><br/><label><input id="editMinor" type="checkbox" style=""/>小编辑</label>',
     keepContent: false,
-    beforeClose: function(modal) {
+    className: 'in-page-edit timestamp-' + timestamp,
+    beforeClose: function (modal) {
       ssi_modal.confirm({
+        className: 'in-page-edit confirmbox',
         position: 'top center',
-        content: '确定要关闭窗口吗？<br/>你所做的修改不会被保存。',
+        content: '确定要关闭窗口吗？<br/>此处的编辑将会丢失！',
         okBtn: {
-          className: 'btn btn-primary',
+          className: 'btn btn-danger',
           label: '确定'
         },
         cancelBtn: {
-          className: 'btn btn-danger',
+          className: 'btn btn-secondary',
           label: '取消'
         }
       },
-      function(result) {
+        function (result) {
         if (result === true) {
           modal.options.keepContent = false;
           modal.options.beforeClose = '';
@@ -120,48 +116,59 @@ function InPageEdit(option) {
       return false;
     },
     buttons: [{
-      label: '预览',
-      method: function (){
-        var text = $('#editArea').val();
-        requestPreview(text)
-      }
-    },
-    {
-      label: '发布',
-      method: function() {
-        ssi_modal.confirm({
-          content: '是否发布',
-          okBtn: {
-            label: '确定'
+        label: '预览',
+        className: 'btn btn-secondary',
+        method: function () {
+          var text = $('#editArea').val();
+          requestPreview(text)
+        }
+      }, {
+        label: '发布',
+        className: 'btn btn-primary',
+        method: function () {
+          ssi_modal.confirm({
+            className: 'in-page-edit confirmbox',
+            content: '是否发布',
+            okBtn: {
+              className: 'btn btn-primary',
+              label: '确定'
+            },
+            cancelBtn: {
+              className: 'btn btn-secondary',
+              label: '取消'
+            },
           },
-          cancelBtn: {
-            label: '取消'
-          },
-        },
-        function(result) {
-          if (result) {
-            var text = $('#editArea').val(),
-                minor = $('#editMinor').prop('checked'),
-                section = option.section,
-                summary = $('#editSummary').val();
-            postArticle({text:text,page:editPage,minor:minor,section:section,summary:summary});
-          }
-        })
+            function (result) {
+            if (result) {
+              var text = $('#editArea').val(),
+              minor = $('#editMinor').prop('checked'),
+              section = option.section,
+              summary = $('#editSummary').val();
+              postArticle({
+                text: text,
+                page: editPage,
+                minor: minor,
+                section: section,
+                summary: summary
+              });
+            }
+          })
+        }
       }
-    }]
+    ]
   });
-  new mw.Api().get(jsonGet).then(function(data){
+  new mw.Api().get(jsonGet).then(function (data) {
     if (data.error === undefined) {
       editText = data.parse.wikitext['*']
     } else {
       editText = '<!-- 警告：无法获取页面内容 -->';
       console.error('[InPageEdit]警告：无法获取页面内容');
     }
-    $('#editArea').val(editText).attr('disabled',false);
-  }).fail(function(data){
+    $('#editArea').val(editText).attr('disabled', false);
+  }).fail(function (data) {
     editText = '<!-- 警告：无法获取页面内容 -->';
     console.error('[InPageEdit]警告：无法获取页面内容');
-    $('#editArea').val(editText).attr('disabled',false);
+    $('#editArea').val(editText).attr('disabled', false);
   });
   // 获取编辑提示
   new mw.Api().get({
@@ -169,174 +176,278 @@ function InPageEdit(option) {
     meta: 'allmessages',
     ammessages: 'Editnotice-' + mw.config.get('wgNamespaceNumber'),
     amlang: mw.config.get('wgUserLanguage') || mw.config.get('wgContentLanguage')
-  }).then(function(data){
+  }).then(function (data) {
     editNotice = data.query.allmessages[0]['*'];
-    new mw.Api().post({action:'parse',preview:true,text:editNotice}).then(function(data){
+    new mw.Api().post({
+      action: 'parse',
+      preview: true,
+      text: editNotice
+    }).then(function (data) {
       editNotice = '<div id="edit-notice" style="display:none">' + data.parse.text['*'] + '</div>'
-      $('#editArea').before(editNotice);
+        $('#editArea').before(editNotice);
       $('#edit-notice').show(400);
     });
   });
 
   // 预览模块
-  function requestPreview(text){
-    var timestamp = new Date().getTime();
-    ssi_modal.show({content:'<section id="InPageEditPreview" data-timestamp="'+timestamp+'">正在读取预览……</section>',title:'预览'});
+  function requestPreview(text) {
+    var timestamp2 = new Date().getTime();
+    ssi_modal.show({
+      className: 'in-page-edit previewbox',
+      content: '<section id="InPageEditPreview" data-timestamp="' + timestamp2 + '">正在读取预览……</section>',
+      title: '预览'
+    });
     new mw.Api().post({
       action: "parse",
       text: text,
       prop: "text",
       preview: true,
       format: "json"
-    }).then(function(data){
+    }).then(function (data) {
       var content = data.parse.text['*'];
-      $('#InPageEditPreview[data-timestamp="'+timestamp+'"]').html(content);
+      $('#InPageEditPreview[data-timestamp="' + timestamp2 + '"]').html(content);
     });
   }
 
   // 发布编辑模块
-  function postArticle(pValue){
-    if (pValue.section === undefined || pValue.section === '') {
-      jsonPost = {
-        action: "edit",
-        text: pValue.text,
-        title: pValue.page,
-        token: mw.user.tokens.get('editToken'),
-        minor: pValue.minor,
-        summary: pValue.summary,
-        errorformat: 'plaintext'
-      }
-    } else {
-      jsonPost = {
-        action: "edit",
-        text: pValue.text,
-        title: pValue.page,
-        section: pValue.section,
-        token: mw.user.tokens.get('editToken'),
-        minor: pValue.minor,
-        summary: pValue.summary,
-        errorformat: 'plaintext'
-      }	
+  function postArticle(pValue) {
+    jsonPost = {
+      action: "edit",
+      text: pValue.text,
+      title: pValue.page,
+      token: mw.user.tokens.get('editToken'),
+      minor: pValue.minor,
+      summary: pValue.summary,
+      errorformat: 'plaintext'
     }
-    new mw.Api().post(jsonPost).then(function(data){
-      ssi_modal.notify('success',{position: 'right top',title:'成功',content:'成功，正在刷新页面。'});
+    if (pValue.section !== undefined && pValue.section !== '') {
+      jsonPost.section = pValue.section;
+    }
+    new mw.Api().post(jsonPost).then(function (data) {
+      ssi_modal.notify('success', {
+        position: 'right top',
+        title: '成功',
+        content: '成功，正在刷新页面。'
+      });
       window.location.reload();
-    }).fail(function(errorCode, fallback, errors){
-      ssi_modal.notify('error',{position: 'right top',title:'警告',content:'发布编辑时发生错误<br/><span style="font-size:amall">'+errors.errors[0]['*']+'('+errors.errors[0]['code']+')</span>'});
+    }).fail(function (errorCode, fallback, errors) {
+      ssi_modal.notify('error', {
+        position: 'right top',
+        title: '警告',
+        content: '发布编辑时发生错误<br/><span style="font-size:amall">' + errors.errors[0]['*'] + '(' + errors.errors[0]['code'] + ')</span>'
+      });
     });
   }
-  
+
+}
+
+/** 快速重定向模块 **/
+function InPageEditRedirect(type) {
+  var json = {
+    action: 'edit',
+    token: mw.user.tokens.get('editToken'),
+    errorformat: 'plaintext'
+  },
+  summary = '快速重定向 → [[:$1]] //使用API进行的操作，请核查本次编辑',
+  text = '#REDIRECT [[:$1]]',
+  question,
+  target;
+  switch (type) {
+  case 'to':
+    json.title = mw.config.get('wgPageName');
+    question = '您要将 <b>' + mw.config.get('wgPageName') + '</b> 重定向到那个页面？';
+    break;
+  case 'from':
+    question = '您要将哪个页面重定向到 <b>' + mw.config.get('wgPageName') + '</b>？';
+    json.text = text.replace('$1', mw.config.get('wgPageName'));
+    json.summary = summary.replace('$1', mw.config.get('wgPageName'));
+    break;
+  }
+  ssi_modal.show({
+    className: 'in-page-edit quick-redirect confirmbox',
+    sizeClass: 'dialog',
+    title: '快速重定向',
+    content: question + '<br><input id="redirect-page" style="width:80%;margin: 0 10%;" onclick="$(this).css(\'box-shadow\',\'\')"/>',
+    buttons: [{
+        label: '确定',
+        className: 'btn btn-primary',
+        method: function () {
+          var input = $('#redirect-page').val();
+          if (input === '' || input === mw.config.get('wgPageName')) {
+            $('#redirect-page').css('box-shadow', '0 0 4px red');
+          } else {
+            switch (type) {
+            case 'to':
+              json.summary = summary.replace('$1', input);
+              json.text = text.replace('$1', input);
+              break;
+            case 'from':
+              json.title = input;
+              break;
+            }
+
+            new mw.Api().post(json).done(function () {
+              ssi_modal.notify('success', {
+                content: '已创建重定向！<br/>正在刷新页面……',
+                title: '成功'
+              });
+              window.location.reload();
+            });
+          }
+        }
+      }
+    ]
+  });
 }
 
 /** 获取段落编辑以及编辑链接 **/
 function InPageEditSectionLink() {
-  $('#mw-content-text a:not(.new)').each(function(i) {
-    if ($(this).attr('href') === undefined) return;
+  $('#mw-content-text a:not(.new)').each(function (i) {
+    if ($(this).attr('href') === undefined)
+      return;
     var url = $(this).attr('href'),
-        title = mw.util.getParamValue( 'title', url ),
-        section = mw.util.getParamValue( 'section', url ),
-        reversion = mw.util.getParamValue( 'oldid', url );
+    title = mw.util.getParamValue('title', url),
+    section = mw.util.getParamValue('section', url),
+    reversion = mw.util.getParamValue('oldid', url);
 
     // 不是本地编辑链接
-    if (url.split('/')['2'] !== location.href.split('/')['2'] && url.substr(0, 1)!=='/') return;
+    if (url.split('/')['2'] !== location.href.split('/')['2'] && url.substr(0, 1) !== '/')
+      return;
 
     // 不是 index.php?title=FOO 形式的url
     if (title === null) {
-      var splitStr = mw.config.get('wgArticlePath').replace('$1','');
+      var splitStr = mw.config.get('wgArticlePath').replace('$1', '');
       if (splitStr === '/') {
-      	splitStr = mw.config.get('wgServer').substring(mw.config.get('wgServer').length-4)+'/';
+        splitStr = mw.config.get('wgServer').substring(mw.config.get('wgServer').length - 4) + '/';
       }
       title = url.split(splitStr).pop().split('?')['0'];
     }
 
-    if (mw.util.getParamValue( 'action', url ) === 'edit' && title !== undefined && section !== 'new') {
+    if (mw.util.getParamValue('action', url) === 'edit' && title !== undefined && section !== 'new') {
       $(this).after(
-        $('<a>',{
+        $('<a>', {
           'href': 'javascript:void(0)',
           'class': 'in-page-edit-article-link'
         })
         .text('快速编辑')
-        .click(function (){
+        .click(function () {
           if (reversion !== null) {
-            InPageEdit({page:title, summary:' //InPageEdit - from oldid: '+ reversion, reversion:reversion});
+            InPageEdit({
+              page: title,
+              summary: ' //InPageEdit - from oldid: ' + reversion,
+              reversion: reversion
+            });
           } else if (section !== null) {
-            InPageEdit({page:title, summary:' //InPageEdit - Section'+section, section:section});
+            InPageEdit({
+              page: title,
+              summary: ' //InPageEdit - Section' + section,
+              section: section
+            });
           } else {
-            InPageEdit({page:title, summary:' //InPageEdit'});
+            InPageEdit({
+              page: title,
+              summary: ' //InPageEdit'
+            });
           }
-        }
-      ));
+        }));
     }
   });
   $('.mw-editsection .in-page-edit-article-link').before(' | ');
-  $('.in-page-edit-article-link:not(.mw-editsection)').before('[').after(']');
+  $(':not(.mw-editsection) .in-page-edit-article-link').before('[').after(']');
 }
 
 /** 初始化，添加按钮 **/
-$(function() {
+$(function () {
   // 检测是否为文章页
   if (mw.config.get('wgIsArticle') === false) {
     console.warn('[InPageEdit] 不是文章页面，插件已暂停执行。');
     return;
   }
-  
+
   // get skin name
   var bodyClass = $('body').attr('class'),
   skinReg = /\sskin-(.*)\s/ig,
   skin;
   bodyClass.replace(skinReg,
-  function(s, value) {
+    function (s, value) {
     skin = value.split(' ')[0];
   });
 
   switch (skin) {
-  case 'timeless': //Wjghj project
-    $('#ca-edit, #ca-viewsource').after($('<li>').append($('<a>').addClass('in-page-edit-btn-link').attr('href', 'javascript:void(0)').text('快速编辑').click(function() {
-      InPageEdit({
-        page: mw.config.get('wgPageName'),
-        summary: ' //InPageEdit',
-        reversion: mw.config.get('wgRevisionId')
-      })
-    })));
-    InPageEditSectionLink();
-    break;
-
-  case 'oasis': //Fandom平台
-    /*
-    $('.page-header__contribution-buttons .wds-dropdown__content ul').append($('<li>').append($('<a>').addClass('in-page-edit-btn-link').attr('href', 'javascript:void(0)').text('快速编辑').click(function() {
-    // OOO
-  })));
- */
+  case 'oasis': //由于兼容性问题暂不支持Fandom平台);
     new BannerNotification('注意，当前版本InPageEdit扩展在Fandom平台有严重兼容性问题。<br/>目前不建议在Fandom使用，后续的支持计划请暂定于Fandom社区统一计划(UCP)完成后。', 'warn').show();
     console.error('[InPageEdit] 警告：暂不支持的平台。');
     break;
 
-  default: //未优化的皮肤
-    $('body').append($('<div>').css({
-      'position':
-      'fixed',
-      'bottom': '12px',
-      'right': '-4px',
-      'background': 'white',
-      'box-shadow': '0 0 5px gray',
-      'border-radius': '2px',
-      'padding': '4px 20px 4px 4px'
-    }).append('✎ <a class="in-page-edit-btn-link" href="javascript:void(0)" onclick="InPageEdit({page: \''+mw.config.get('wgPageName')+'\',summary: \' //InPageEdit\',reversion:'+mw.config.get('wgRevisionId')+'})">快速编辑</a>'));
+  default: //一般
+    $('body').append(
+      '<div id="ipe-edit-toolbox">' +
+
+      // group1 上方的一列按钮
+      '<div class="btn-group">' +
+      '<div class="btn-tip-group"><div class="btn-tip">快速编辑</div><div id="edit-btn" class="ipe-toolbox-btn material-icons">edit</div></div>' +
+      '<div class="btn-tip-group"><div class="btn-tip">重定向至此</div><div id="redirectfrom-btn" class="ipe-toolbox-btn material-icons">flight_land</div></div>' +
+      '<div class="btn-tip-group"><div class="btn-tip">重定向到</div><div id="redirectto-btn" class="ipe-toolbox-btn material-icons">flight_takeoff</div></div>' +
+      '</div>' +
+
+      // group2 左边的一排按钮
+      '<div class="btn-group group2"><div style="display: flex;">' +
+      '<div class="btn-tip-group"><div class="btn-tip">删除本页面</div><div id="deletepage-btn" class="ipe-toolbox-btn material-icons">delete_forever</div></div>' +
+      '<div class="btn-tip-group"><div class="btn-tip">重命名页面</div><div id="renamepage-btn" class="ipe-toolbox-btn material-icons">format_italic</div></div>' +
+      '<div class="btn-tip-group"><div class="btn-tip">关于&帮助</div><div id="about-btn" class="ipe-toolbox-btn material-icons">help_outline</div></div>' +
+      '</div></div>' +
+
+      '<div class="ipe-toolbox-btn material-icons" id="toolbox-toggle">add</div>' +
+      '</div>');
+    $('#ipe-edit-toolbox #toolbox-toggle').click(function () {
+      $('#ipe-edit-toolbox #toolbox-toggle').toggleClass('opened');
+      $('#ipe-edit-toolbox .btn-group').toggle(100);
+    });
+    $('#ipe-edit-toolbox .ipe-toolbox-btn').click(function () {
+      switch ($(this).attr('id')) {
+      case 'toolbox-toggle':
+        break;
+      case 'edit-btn':
+        InPageEdit({
+          page: mw.config.get('wgPageName'),
+          summary: ' //InPageEdit',
+          reversion: mw.config.get('wgRevisionId')
+        });
+        break;
+      case 'redirectfrom-btn':
+        InPageEditRedirect('from')
+        break;
+      case 'redirectto-btn':
+        InPageEditRedirect('to')
+        break;
+      case 'about-btn':
+        ssi_modal.show({
+          title: '关于InPageEdit',
+          className: 'in-page-edit-about',
+          content: '<div id="placeholder">正在加载……</div><section style="display:none"></section>'
+        });
+        $.ajax({
+          url: 'https://common.wjghj.cn/api.php',
+          dataType: 'jsonp',
+          type: 'post',
+          data: {
+            page: 'InPageEdit-v2',
+            action: 'parse',
+            prop: 'text',
+            format: 'json'
+          },
+          success: function (data) {
+            var info = data.parse.text['*'];
+            $('.in-page-edit-about #placeholder').fadeOut(800);
+            $('.in-page-edit-about section').html(info).delay(1000).show(800);
+          }
+        });
+        break;
+      default:
+        ssi_modal.notify('info',{title:'暂未推出',content:'抱歉，这个功能还在开发中~'});
+      }
+    });
     InPageEditSectionLink();
-    console.warn('[InPageEdit] 警告：未经优化的皮肤。');
   }
 
-});
-
-/** 正在测试中，通过URL参数载入 **/
-$(function(){
-  var ipeparam = mw.util.getParamValue( 'inpageedit', location.href ),
-     reversion = mw.util.getParamValue( 'oldid', location.href )
-  if ( ipeparam == '1' || ipeparam == 'true' ) {
-    if (reversion == null) {
-      InPageEdit({page:mw.config.get('wgPageName')});
-    } else {
-      InPageEdit({page:mw.config.get('wgPageName'),reversion:reversion});
-    }
-  }
 });
