@@ -1,0 +1,173 @@
+/**
+ *『Wjghj Project Static』
+ * This _CascadingStyleSheets_ code is from https://common.wjghj.cn
+ * CC BY-NC-SA
+ **/
+/* 编辑器 */
+.ssi-modalWindow .mw-editsection {
+  display: none;
+}
+.in-page-edit {
+  
+}
+.in-page-edit .ssi-modalWindow {
+  padding: 0;
+  border-radius: 0;
+}
+.in-page-edit .ssi-topIcons {
+  #background: #808080;
+  text-align: center;
+}
+.in-page-edit .ssi-topIcons .ssi-closeIcon {
+  background: none;
+  color: #808080;
+  height: 38px;
+  width: 36px;
+  font-size: 30px;
+  line-height:  45px;
+}
+.in-page-edit .ssi-topIcons .ssi-closeIcon:hover {
+  background: none;
+  height: 38px;
+  color: #454545;
+  width: 36px;
+  font-size: 30px;
+  line-height:  45px;
+}
+.in-page-edit .ssi-closeIcon:before {
+  content: 'close';
+  font-family: 'Material Icons';
+}
+.in-page-edit .ssi-modalTitle {
+  font-style: normal;
+  font-family: unset;
+  background: rgba(128, 128, 128, 0.2);
+  color: #4e4e4e;
+}
+.in-page-edit #editArea {
+  max-width:100%;
+  min-width:100%;
+  min-height:350px;
+}
+.in-page-edit #editMinor {
+  margin-left:0;
+  margin-right:4px;
+}
+.in-page-edit .btn {
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  background: white;
+  padding: 0.25em 1em 0.1em 1em;
+  border-radius: 0.2em;
+  transition: all .2s;
+}
+.in-page-edit .btn.btn-primary {
+  background: #404a57;
+  color: white;
+}
+.in-page-edit .btn.btn-primary:hover {
+  background: #606f80;
+}
+.in-page-edit .btn.btn-secondary {
+  color: #505050;
+  border: 1px solid #606880;
+}
+.in-page-edit .btn.btn-secondary:hover {
+  color: #8686a0;
+  border: 1px solid #a0a0a0;
+}
+.in-page-edit .btn.btn-danger {
+  background: #d04040;
+  color: white;
+}
+.in-page-edit .btn.btn-danger:hover {
+  background: #ff5050;
+  color: white;
+}
+.in-page-edit.confirmbox .ssi-modalWindow  {
+  margin-top: 50% !important;
+}
+.in-page-edit.confirmbox .ssi-modalContent  {
+  padding-top: 18px;
+  font-size: large;
+}
+/* 右下角小工具箱 */
+#ipe-edit-toolbox {
+  position: fixed; 
+  right: 24px; 
+  bottom: 24px;
+  user-select: none;
+  z-index: 199;
+}
+#ipe-edit-toolbox #toolbox-toggle {
+  transition: all .1s
+}
+#ipe-edit-toolbox #toolbox-toggle.opened {
+  transform: rotate(45deg);
+}
+#ipe-edit-toolbox .ipe-toolbox-btn {
+  font-size: 40px; 
+  color: white; 
+  background: #bebebe; 
+  width: 50px; 
+  height: 50px; 
+  text-align: center; 
+  line-height: 56px; 
+  border-radius: 50%;
+  box-shadow: 0 0 5px gray;
+  text-shadow: 0 0 2px #4c4c4c;
+  padding-top: px;
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+#ipe-edit-toolbox .ipe-toolbox-btn#edit-btn {
+  background: #45a8ff;
+}
+#ipe-edit-toolbox .ipe-toolbox-btn#redirectfrom-btn {
+  background: #ffa530;
+}
+#ipe-edit-toolbox .ipe-toolbox-btn#redirectto-btn {
+  background: #ff4985;
+}
+#ipe-edit-toolbox .ipe-toolbox-btn#deletepage-btn {
+  background: #f00000;
+}
+#ipe-edit-toolbox .ipe-toolbox-btn#renamepage-btn {
+  background: #ca7efe;
+}
+#ipe-edit-toolbox .ipe-toolbox-btn#about-btn {
+  background: #2ddefb;
+}
+#ipe-edit-toolbox .btn-group {
+  #width: 100px; 
+  height: auto; 
+  #background: white none repeat scroll 0% 0%; 
+  #border: 1px solid gray; 
+  display: none;
+}
+#ipe-edit-toolbox .btn-group.group2 {
+  position: absolute;
+  right: 50px;
+}
+#ipe-edit-toolbox .btn-group.group2 .btn-tip-group {
+  margin-right: 6px 
+}
+#ipe-edit-toolbox .btn-group.opened {
+  display: block;
+}
+#ipe-edit-toolbox .btn-tip-group .btn-tip {
+  position: absolute;
+  text-align: center;
+  font-size: 12px;
+  width: 6em;
+  right: -12px;
+  top: -2em;
+  background: white;
+  padding: 0px 4px;
+  box-shadow: 0 0 4px gray;
+  display: none;
+}
+#ipe-edit-toolbox .btn-tip-group:hover .btn-tip {
+  display: unset;
+}
