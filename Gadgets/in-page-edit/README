@@ -1,0 +1,122 @@
+This is update log for InPageEdit-v2.
+<div style="float:right">
+__TOC__
+Description: <br/>
+[N] New function(s)<br/>
+[T] Beta testing function(s)<br/>
+[F] Fixed issue(s)<br/>
+[D] Deleted function(s)
+</div>
+
+== 2.4.764 ==
+Release date: 01:55, 12 November 2019 (CST)
+* [F] This is not important update for most of you, we use a new version number to remind you that we replaced some function names to make the module more holistic
+** <code>InPageEdit()</code> → <code>InPageEdit.edit()</code>
+** <code>InPageEditRedirect()</code> → <code>InPageEdit.redirect()</code>
+** <code>InPageEditDeletepage</code> → <code>InPageEdit.deletepage()</code>
+** <code>InPageEditRename()</code> → <code>InPageEdit.renamepage()</code>
+** <code>InPageEditPreference()</code> → <code>InPageEdit.preference()</code>
+** <code>InPageEditViewDiff()</code> → <code>InPageEdit.viewDiff()</code>
+** <code>InPageEditSectionLink()</code> → <code>InPageEdit.articleLink()</code>
+
+== 2.3.747 ==
+Release date: 00:16, 11 November 2019 (CST)
+* [N] New function: Quick view page diff!
+** Click diff links from ''Special:Recentchanges'' or ''action=history'', make a quick view of the diff log
+
+== 2.3.616 ==
+Release date: 21:28, 6 November 2019 (CST)
+* [F] This is not important update for most of you, we use a new version number to remind you that we have modified some css selectors
+** Main editor window
+*** Add <code>.ipe-editor .timestamp-''<timestamp>''</code>
+*** <code>#editPage</code> → <code>.editPage</code>
+*** <code>#editArea</code> → <code>.editArea</code>
+*** <code>#editSummary</code> → <code>.editSummary</code>
+*** <code>#editMinor</code> → <code>.editMinor</code>
+** Quick redirect window
+*** Add <code>.quick-redirect</code>
+** Quick delete window
+*** Add → <code>.quick-deletepage</code>
+** Quick rename window
+*** Add <code>.quick-renamepage</code>
+** About & Help window
+*** Add <code>.in-page-edit</code>
+
+== 2.3.568 ==
+Release date: 12:52, 5 November 2019 (CST)
+* [F] Simplify codes
+* [F] Fixed a bug that cause in-article edit link save error
+
+== 2.3.488 ==
+Release date: 23:03, 3 November 2019 (CST)
+* [N] Now you can save your custom preferences by clicking the gear icon(<span class="material-icons">settings</span>) in the InPageEdit Toolbox!
+** Save your prefer edit summary, who doesn't like to be cool and maverick?
+** Default set all edits as minor edit
+
+== 2.2.460 ==
+Release date: 21:49, 2 November 2019 (CST)
+* This is not a regular update, we use a new version number to remind you that we have replaced the license agreement
+* *Some new functions coming soon (•‾̑⌣‾̑•)✧˖°
+
+== 2.2.420 ==
+Release date: 20:45, 1 November 2019 (CST)
+* [N] Quick redirect now released! Check the InPageEdit Toolbox on right bottom of the page!
+
+== 2.2.382 ==
+Release date: 16:53, 1 November 2019 (CST)
+* [N] The new design: InPageEdit Toolbox! Checking all ipe tools on right bottom of the page!
+* [COMING_SOON] Quick redirect & Quick rename page...
+
+== 2.2.350 ==
+Release date: 02:10, 1 November 2019 (CST)
+* [N] New design with [https://fandomdesignsystem.com Fandom Design System]!
+* [D] No longer support load via URL param
+
+== 2.1.336 ==
+* [F] Simplify json codes
+
+== 2.1.330 ==
+Release date: 19:51, 25 October 2019 (CST)
+* [N] Use the new way to get plugin version info
+
+== 2.1.318 ==
+Release date: 20191025
+* [N][T] <s>Load via URL param</s><sup>↑ deleted, see [[#2.2.350|Ver.2.2.350]]</sup>
+
+== 2.1.306 ==
+Release date: 20191025
+* [F] Replace syntax with mw resource loader0
+
+== 2.1.298 ==
+Release date: 20191019
+* [N] Now support reversion edit
+* [F] Posting error will show you the error code
+
+== 2.0.279 ==
+Release date: 20191018
+* [N] Now support minor edit
+
+== 2.0.9 ==
+Release date: unknown
+* [N] Now support multi skins
+
+== 2.0.8 ==
+Release date: unknown
+* [N] Now support preview
+
+== 2.0.7 ==
+Release date: unknown
+* [F] Multi bugs fixed, content can be published now
+
+== 2.0.0 ==
+Release date: unknown
+* [N] Alpha release, rewrite InPageEdit via ssi modal plugin
+
+== Earlier version ==
+InPageEdit 1.0 no longer updated
+
+<div style="height:2.5em"></div>
+----
+<center>InPageEdit-v2 is a MediaWiki plugin based on JavaScript. And write by [https://wjghj.cn/wiki/机智的小鱼君 机智的小鱼君].</center>
+<div style="height:12px"></div>
+<center>© Original by Wjghj Project, [https://www.gnu.org/licenses/gpl-3.0-standalone.html GNU General Public License 3.0] (2019- )<br/>See more: [https://common.wjghj.cn/wiki/InPageEdit-v2 Plugin page] [https://common.wjghj.cn/wiki/InPageEdit-v2/version-info Version info]</center>
