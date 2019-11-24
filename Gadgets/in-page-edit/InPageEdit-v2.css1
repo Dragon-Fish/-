@@ -2,10 +2,7 @@
  *『Wjghj Project Static』
  * This _CascadingStyleSheets_ code is from https://common.wjghj.cn
  * CC BY-NC-SA
- **/
-/* 编辑器 */
-.ssi-modalWindow .mw-editsection {
-  display: none;
+none;
 }
 .in-page-edit {
   
