@@ -5,6 +5,7 @@
 
 #保护等级
 $wgRestrictionLevels[] = 'wiki-official';
+$wgNamespaceProtection[NS_HTML] = array('edit-html');
 
 ## 验证码
 $wgGroupPermissions['*']['skipcaptcha'] = false;
@@ -41,9 +42,10 @@ $wgRemoveGroups['master'] = array( 'member');
 
 #站长
 $wgGroupPermissions['siteadmin']['userrights'] = true;
-$wgGroupPermissions['siteadmin']['site-management'] = true;
+$wgGroupPermissions['siteadmin']['maintenance'] = true;
 $wgGroupPermissions['siteadmin']['wiki-official'] = true;
 $wgGroupPermissions['siteadmin']['siteadmin'] = true;
+$wgGroupPermissions['siteadmin']['edit-html'] = true;
 
 #Staff
 $wgGroupPermissions['staff']['lookupuser'] = true;
@@ -64,7 +66,7 @@ $wgGroupPermissions['staff']['editsitejs'] = true;
 $wgGroupPermissions['staff']['editusercss'] = true;
 $wgGroupPermissions['staff']['edituserjson'] = true;
 $wgGroupPermissions['staff']['edituserjs'] = true;
-
+$wgGroupPermissions['staff']['edit-html'] = true;
 
 
 #安保机器人
@@ -75,13 +77,22 @@ $wgRemoveGroups['bot-global'] =  array( 'siteadmin' );
 $wgGroupPermissions['bureaucrat']['userrights'] = false;
 $wgAddGroups['bureaucrat'] = array(  'bot','sysop','widgeteditor','member','master','flow-bot');
 $wgGroupsRemoveFromSelf['bureaucrat'] = array( 'bureaucrat' );
-$wgRemoveGroups['bureaucrat'] = array(  'bot','sysop' ,'widgeteditor','member','master','flow-bot' );
+$wgRemoveGroups['bureaucrat'] = array(  'bot','sysop' ,'gadgeteditor','member','master','flow-bot' );
 
 #管理员
 $wgGroupPermissions['sysop']['upload'] = true;$wgGroupPermissions['sysop']['move'] = true;
-$wgAddGroups['sysop'] = array(  'bot','widgeteditor' , 'member' );
+$wgAddGroups['sysop'] = array(  'bot','gadgeteditor' , 'member' );
 $wgGroupsRemoveFromSelf['sysop'] = array( 'sysop' );
-$wgRemoveGroups['sysop'] = array('bot','widgeteditor');
+$wgRemoveGroups['sysop'] = array('bot','gadgeteditor');
 $wgGroupPermissions['sysop']['editusercss'] = false;
 $wgGroupPermissions['sysop']['edituserjson'] = false;
 $wgGroupPermissions['sysop']['edituserjs'] = false;
+
+#界面管理员
+$wgGroupPermissions['interface-admin']['edit-html'] = true;
+
+#小部件编辑者
+$wgGroupPermissions['gadgeteditor']['edit-html'] = true;
+$wgGroupPermissions['gadgeteditor']['gadgets-edit'] = true;
+$wgGroupPermissions['gadgeteditor']['gadgets-definition-edit'] = true;
+$wgGropsRemoveFromSelf['gadgeteditor'] = array('gadgeteditor');
