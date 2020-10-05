@@ -1,0 +1,33 @@
+#wikiaupload #filename-input {
+  margin: 8px 0 0 0;
+  border-radius: 4px;
+  border: 2px solid #ccc;
+  transition: all 0.5s
+}
+#wikiaupload #filename-input:focus {
+  margin: 8px 0 0 0;
+  border-radius: 2px;
+  border: 2px solid #888;
+}
+#wikiaupload #close-btn {
+  font-size:12px;
+  position: absolute;
+  right: 34px;
+}
+#wikiaupload #preview-img {
+  height:200px;
+  width:auto;
+  border-bottom: 4px solid #55a2ff;
+  border-radius: 4px;
+  transition: all 0.5s;
+  margin: 8px;
+  background: url(https://wjghj.cn/images/4/4d/Windows_loading.gif) no-repeat 50%;
+}
+#wikiaupload #preview-img:hover {
+  box-shadow: 0 0 6px gray;
+  transform: scaleZ(1.2);
+}
+#wikiaupload #preview-filename {
+  color:gray;
+  font-size:12px;
+}
