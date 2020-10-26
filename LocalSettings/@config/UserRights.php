@@ -5,7 +5,7 @@
 
 #保护等级
 $wgRestrictionLevels[] = 'wiki-official';
-$wgNamespaceProtection[NS_HTML] = array('edit-html');
+$wgNamespaceProtection[ NS_HTML ] = array('edit-html');
 
 ## 验证码
 $wgGroupPermissions['*']['skipcaptcha'] = false;

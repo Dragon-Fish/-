@@ -20,7 +20,7 @@ wfLoadExtension('Interwiki');
 wfLoadExtension('LocalisationUpdate');
 wfLoadExtension('MultimediaViewer');
 wfLoadExtension('MsUpload');
-require_once($IP.'/extensions/NamespaceHTML/NamespaceHTML.php'); $wgRawHtmlNamespaces= array( NS_HTML );
+require_once($IP.'/extensions/NamespaceHTML/NamespaceHTML.php'); $wgRawHtmlNamespaces = array( NS_HTML );
 wfLoadExtension('Nuke');
 wfLoadExtension('OATHAuth');
 wfLoadExtension('PageImages');
@@ -37,15 +37,15 @@ wfLoadExtension('SpamBlacklist');
 wfLoadExtension('TemplateData');
 wfLoadExtension('TextExtracts');
 wfLoadExtension('TitleBlacklist');
-// wfLoadExtension('VisualEditor');
+// wfLoadExtension('VisualEditor'); wfLoadExtension('Parsoid', "$IP/vendor/wikimedia/parsoid/extension.json");
 wfLoadExtension('WikiEditor');
 
-// ## 结构式讨论
-// wfLoadExtension('Flow');
-// # 启用的名字空间
-// $wgNamespaceContentModels[ NS_TALK ] = 'flow-board';
-// $wgNamespaceContentModels[ NS_USER_TALK ] = 'flow-board';
-// $wgNamespaceContentModels[ NS_PROJECT_TALK ] = 'flow-board';
+## 结构式讨论
+# wfLoadExtension('Flow');
+# 启用的名字空间
+# $wgNamespaceContentModels[ NS_TALK ] = 'flow-board';
+# $wgNamespaceContentModels[ NS_USER_TALK ] = 'flow-board';
+# $wgNamespaceContentModels[ NS_PROJECT_TALK ] = 'flow-board';
 
 ## Central Auth
 // wfLoadExtension('CentralAuth');
