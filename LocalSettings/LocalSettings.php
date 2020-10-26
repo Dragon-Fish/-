@@ -14,9 +14,9 @@ if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] === 'wjghj.cn') {
 
 # siteId
 $siteId = '';
-if (!isset($_SERVER['SERVER_NAME']) && getenv('site')) {
-    # 更新站点CLI: site=(www|common) php maintenance/update.php
-    switch (getenv('site')) {
+if (!isset($_SERVER['SERVER_NAME']) && getenv('SITE')) {
+    # 更新站点CLI: SITE=(www|common) php maintenance/update.php
+    switch (getenv('SITE')) {
         case 'www':
             $siteId = 'www';
             break;
