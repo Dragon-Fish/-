@@ -1,2 +1,5 @@
 # Site Icons
-some icon file
+
+Wjghj Project Logos.
+
+Attention: All rights reserved.
