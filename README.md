@@ -12,8 +12,8 @@
 
 ## 相关站台
 
-- 小鱼君和他的朋友们（主站台）：[https://www.wjghj.cn](www.wjghj.cn)
-- 万界规划局静态资源数据库（Common）：[https://common.wjghj.cn](common.wjghj.cn)
+- 小鱼君和他的朋友们（主站台）：<https://www.wjghj.cn>
+- 万界规划局静态资源数据库（Common）：<https://common.wjghj.cn>
 
 ## 结构介绍
 
@@ -21,7 +21,7 @@
 - NOTE 笔记、备忘录
 - extensions 包含 wiki 扩展功能的额外配置文件
 - gadgets 原创小工具
-  - 其中 InPageEdit 已作为独立插件提供，详见：[https://github.com/Wjghj-Project/InPageEdit](Wjghj-Project/InPageEdit)
+  - 其中 InPageEdit 已作为独立插件提供，详见：[Wjghj-Project/InPageEdit](https://github.com/Wjghj-Project/InPageEdit)
 - icons 站台标志
   - 请注意：该文件夹内媒体文件 Wjghj Project (机智的小鱼君) 版权所有
 - nginx 网站 http 服务器配置文件，例如 http 重定向以及伪静态
