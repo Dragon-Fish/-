@@ -1,0 +1,4 @@
+[submodule "InPageEdit"]
+	path = gadgets/InPageEdit
+	url = https://github.com/Wjghj-Project/InPageEdit.git
+	branch = .
