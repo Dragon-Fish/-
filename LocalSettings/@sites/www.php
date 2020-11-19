@@ -8,7 +8,7 @@ $wgDBname = 'wjghj_wiki';
 $wgLanguageCode = 'zh';
 
 $wgUploadPath = '/images/www';
-$wgUploadDirectory = $IP.'/images/www';
+$wgUploadDirectory = $IP . '/images/www';
 $wgCacheDirectory = '/tmp/mediawiki_www_cache';
 
 # 共享文件
@@ -33,7 +33,7 @@ $wgForeignFileRepos[] = [
   'tablePrefix' => '',
   'hasSharedCache' => false,
   'descBaseUrl' => 'https://common.wjghj.cn/wiki/File:',
-  'fetchDescription' => true
+  'fetchDescription' => true,
 ];
 // $wgForeignFileRepos[] = [
 //   'class' => 'ForeignAPIRepo',
@@ -44,7 +44,8 @@ $wgForeignFileRepos[] = [
 // ];
 
 ## 扩展
-wfLoadExtension('FlowThread'); $wgFlowThreadConfig['Avatar'] = '/avatar/${username}';
+wfLoadExtension('FlowThread');
+$wgFlowThreadConfig['Avatar'] = '/avatar/${username}';
 enableSemantics('www.wjghj.cn');
 
 ## 名字空间
@@ -72,9 +73,9 @@ $wgExtraNamespaces[NS_HTML_TALK] = 'Html_talk';
 $wgNamespaceAliases['Wq'] = NS_WEAPON;
 $wgNamespaceAliases['Dj'] = NS_DAOJU;
 // 开启子页面
-$wgNamespacesWithSubpages[ NS_WEAPON ] = true;
-$wgNamespacesWithSubpages[ NS_WEAPON_TALK ] = true;
-$wgNamespacesWithSubpages[ NS_GAME ] = true;
-$wgNamespacesWithSubpages[ NS_GAME_TALK ] = true;
-$wgNamespacesWithSubpages[ NS_BLOG ] = true;
-$wgNamespacesWithSubpages[ NS_BLOG_TALK ] = true;
+$wgNamespacesWithSubpages[NS_WEAPON] = true;
+$wgNamespacesWithSubpages[NS_WEAPON_TALK] = true;
+$wgNamespacesWithSubpages[NS_GAME] = true;
+$wgNamespacesWithSubpages[NS_GAME_TALK] = true;
+$wgNamespacesWithSubpages[NS_BLOG] = true;
+$wgNamespacesWithSubpages[NS_BLOG_TALK] = true;

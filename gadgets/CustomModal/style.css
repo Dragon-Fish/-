@@ -5,7 +5,7 @@
   top: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255,255,255,.4);
+  background: rgba(255, 255, 255, 0.4);
 }
 .customModal {
   left: 10%;
@@ -16,7 +16,6 @@
   border-bottom: 4px solid #aaa;
 }
 .customModal-close {
-
 }
 .customModal .customModal-title {
   margin: 8px 16px 4px 16px;
@@ -24,7 +23,7 @@
 .customModal .customModal-content {
   padding: 8px 14px;
 }
-.customModal-close [data-action="closeModal"] {
+.customModal-close [data-action='closeModal'] {
   width: 32px;
   height: 32px;
   position: absolute;

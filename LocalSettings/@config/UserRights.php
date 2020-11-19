@@ -5,7 +5,7 @@
 
 #保护等级
 $wgRestrictionLevels[] = 'wiki-official';
-$wgNamespaceProtection[ NS_HTML ] = array('edit-html');
+$wgNamespaceProtection[NS_HTML] = ['edit-html'];
 
 ## 验证码
 $wgGroupPermissions['*']['skipcaptcha'] = false;
@@ -28,7 +28,8 @@ $wgGroupPermissions['user']['move'] = false;
 #会员
 $wgGroupPermissions['member']['upload'] = true;
 $wgGroupPermissions['member']['mass-upload'] = true;
-$wgGroupPermissions['member']['move'] = true; $wgGroupPermissions['master']['move'] = true;
+$wgGroupPermissions['member']['move'] = true;
+$wgGroupPermissions['master']['move'] = true;
 
 #协管员
 $wgGroupPermissions['master']['upload'] = true;
@@ -37,8 +38,8 @@ $wgGroupPermissions['master']['delete'] = true;
 $wgGroupPermissions['master']['undelete'] = true;
 $wgGroupPermissions['master']['protect'] = true;
 $wgGroupPermissions['master']['editprotected'] = true;
-$wgAddGroups['master'] = array( 'member');
-$wgRemoveGroups['master'] = array( 'member');
+$wgAddGroups['master'] = ['member'];
+$wgRemoveGroups['master'] = ['member'];
 
 #站长
 $wgGroupPermissions['siteadmin']['userrights'] = true;
@@ -68,22 +69,22 @@ $wgGroupPermissions['staff']['edituserjson'] = true;
 $wgGroupPermissions['staff']['edituserjs'] = true;
 $wgGroupPermissions['staff']['edit-html'] = true;
 
-
 #安保机器人
 $wgGroupPermissions['bot-global']['security-bot'] = true;
-$wgRemoveGroups['bot-global'] =  array( 'siteadmin' );
+$wgRemoveGroups['bot-global'] = ['siteadmin'];
 
 #行政员
 $wgGroupPermissions['bureaucrat']['userrights'] = false;
-$wgAddGroups['bureaucrat'] = array(  'bot','sysop','widgeteditor','member','master','flow-bot');
-$wgGroupsRemoveFromSelf['bureaucrat'] = array( 'bureaucrat' );
-$wgRemoveGroups['bureaucrat'] = array(  'bot','sysop' ,'gadgeteditor','member','master','flow-bot' );
+$wgAddGroups['bureaucrat'] = ['bot', 'sysop', 'widgeteditor', 'member', 'master', 'flow-bot'];
+$wgGroupsRemoveFromSelf['bureaucrat'] = ['bureaucrat'];
+$wgRemoveGroups['bureaucrat'] = ['bot', 'sysop', 'gadgeteditor', 'member', 'master', 'flow-bot'];
 
 #管理员
-$wgGroupPermissions['sysop']['upload'] = true;$wgGroupPermissions['sysop']['move'] = true;
-$wgAddGroups['sysop'] = array(  'bot','gadgeteditor' , 'member' );
-$wgGroupsRemoveFromSelf['sysop'] = array( 'sysop' );
-$wgRemoveGroups['sysop'] = array('bot','gadgeteditor');
+$wgGroupPermissions['sysop']['upload'] = true;
+$wgGroupPermissions['sysop']['move'] = true;
+$wgAddGroups['sysop'] = ['bot', 'gadgeteditor', 'member'];
+$wgGroupsRemoveFromSelf['sysop'] = ['sysop'];
+$wgRemoveGroups['sysop'] = ['bot', 'gadgeteditor'];
 $wgGroupPermissions['sysop']['editusercss'] = false;
 $wgGroupPermissions['sysop']['edituserjson'] = false;
 $wgGroupPermissions['sysop']['edituserjs'] = false;
@@ -95,4 +96,4 @@ $wgGroupPermissions['interface-admin']['edit-html'] = true;
 $wgGroupPermissions['gadgeteditor']['edit-html'] = true;
 $wgGroupPermissions['gadgeteditor']['gadgets-edit'] = true;
 $wgGroupPermissions['gadgeteditor']['gadgets-definition-edit'] = true;
-$wgGropsRemoveFromSelf['gadgeteditor'] = array('gadgeteditor');
+$wgGropsRemoveFromSelf['gadgeteditor'] = ['gadgeteditor'];

@@ -1,6 +1,8 @@
-.header-hide{
-    top:-70px !important;transition:all 0.5s;
+.header-hide {
+  top: -70px !important;
+  transition: all 0.5s;
 }
-#mw-header-container,#mw-header-hack{
-    transition:all 0.5s;
+#mw-header-container,
+#mw-header-hack {
+  transition: all 0.5s;
 }

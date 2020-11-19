@@ -4,7 +4,8 @@
 # 增加新扩展：wfLoadExtensions( '扩展名字' );
 # 扩展名字与文件夹名字一致
 
-wfLoadExtension('Avatar'); $wgDefaultAvatar = "/images/avatars/avatar_default.png";
+wfLoadExtension('Avatar');
+$wgDefaultAvatar = '/images/avatars/avatar_default.png';
 wfLoadExtension('CategoryTree');
 wfLoadExtension('CharInsert');
 wfLoadExtension('Cite');
@@ -20,7 +21,8 @@ wfLoadExtension('Interwiki');
 wfLoadExtension('LocalisationUpdate');
 wfLoadExtension('MultimediaViewer');
 wfLoadExtension('MsUpload');
-require_once($IP.'/extensions/NamespaceHTML/NamespaceHTML.php'); $wgRawHtmlNamespaces = array( NS_HTML );
+require_once $IP . '/extensions/NamespaceHTML/NamespaceHTML.php';
+$wgRawHtmlNamespaces = [NS_HTML];
 wfLoadExtension('Nuke');
 wfLoadExtension('OATHAuth');
 wfLoadExtension('PageImages');
@@ -49,7 +51,7 @@ wfLoadExtension('WikiEditor');
 
 ## Central Auth
 // wfLoadExtension('CentralAuth');
-$wgCentralAuthDatabase = "centralauth";
+$wgCentralAuthDatabase = 'centralauth';
 $wgCentralAuthAutoMigrate = true;
 // $wgCentralAuthAutoMigrateNoneGlobalAccounts = true;
-$wgCentralAuthLoginWiki = "wjghj_wiki";
+$wgCentralAuthLoginWiki = 'wjghj_wiki';

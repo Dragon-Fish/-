@@ -1,7 +1,7 @@
 pre.highlight {
   font-size: 1rem;
   line-height: 1.4;
-  padding: .85em;
+  padding: 0.85em;
   word-wrap: normal;
   word-break: break-all;
   white-space: pre;
@@ -26,7 +26,7 @@ pre.highlight.linenums .line-content .line-row {
 }
 pre.highlight.linenums .line-content .line-row::after {
   /* 行末添加不换行空格，保证空 div 的高度 */
-  content: "\a0";
+  content: '\a0';
 }
 pre.highlight.linenums .line-ping {
   font-weight: bold;
